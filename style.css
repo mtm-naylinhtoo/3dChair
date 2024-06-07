@@ -70,6 +70,6 @@ body, html {
 
 @media (max-width: 600px) {
     .title {
-        font-size: 3em; /* Adjust font size for smaller screens */
+        font-size: 3.5em; /* Adjust font size for smaller screens */
     }
 }
