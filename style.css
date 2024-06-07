@@ -13,6 +13,11 @@ body, html {
     height: 900px;
 }
 
+#something {
+    width: 100%;
+    overflow: hidden;
+}
+
 #container-black {
     background-color: black;
     width: 100%;
