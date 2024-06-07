@@ -32,6 +32,12 @@ body, html {
     background-color: transparent;
 }
 
+.copyright{
+    text-align: center;
+    color: #8a633a;
+    padding-bottom: 20px;
+}
+
 #loading-spinner {
     position: fixed;
     top: 50%;
