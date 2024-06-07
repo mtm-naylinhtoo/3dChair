@@ -1,6 +1,14 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
+// Hide the loading spinner once the model is loaded
+const hideLoadingSpinner = () => {
+    const spinner = document.getElementById('loading-spinner');
+    spinner.classList.remove('visible');
+    const content = document.getElementById('content');
+    content.classList.add('visible');
+};
+
 // Create the scene, camera, and renderer
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -9,25 +17,16 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0xffca91, 1); // White background to highlight the model
 document.getElementById('chair').appendChild(renderer.domElement);
 
-// Improved lighting
-const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.7); // Slightly more intense light
-hemiLight.position.set(0, 20, 0);
-scene.add(hemiLight);
+// Show the loading spinner initially
+const showLoadingSpinner = () => {
+    const spinner = document.getElementById('loading-spinner');
+    spinner.classList.add('visible');
+    const content = document.getElementById('content');
+    content.classList.remove('visible');
 
-const dirLight = new THREE.DirectionalLight(0xffffff, 1); // More intense directional light
-dirLight.position.set(-3, 10, -10);
-dirLight.castShadow = true;
-dirLight.shadow.camera.top = 2;
-dirLight.shadow.camera.bottom = -2;
-dirLight.shadow.camera.left = -2;
-dirLight.shadow.camera.right = 2;
-dirLight.shadow.camera.near = 0.1;
-dirLight.shadow.camera.far = 40;
-scene.add(dirLight);
+};
 
-// Add ambient light for softer overall lighting
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-scene.add(ambientLight);
+showLoadingSpinner();
 
 // Load the GLTF model
 const loader = new GLTFLoader();
@@ -43,6 +42,7 @@ loader.load('https://raw.githubusercontent.com/mtm-naylinhtoo/3dChair/master/mod
     });
     scene.add(model);
     animate();
+    hideLoadingSpinner(); // Hide the loading spinner once the model is loaded
 }, undefined, (error) => {
     console.error('An error happened while loading the model', error);
 });
