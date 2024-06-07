@@ -34,19 +34,19 @@ scene.add(ambientLight);
 // Add directional light
 const directionalLight = new THREE.DirectionalLight(0xffffff, 1); // White light
 directionalLight.position.set(0, 10, 0); // Coming from above
-directionalLight.castShadow = true; // Enable shadow casting for the directional light
+// directionalLight.castShadow = true; // Enable shadow casting for the directional light
 scene.add(directionalLight);
 
-// Configure shadow properties for the directional light
-directionalLight.shadow.mapSize.width = 2048; // Increase shadow map resolution
-directionalLight.shadow.mapSize.height = 2048;
-directionalLight.shadow.camera.near = 0.5; // Near clipping plane
-directionalLight.shadow.camera.far = 50; // Far clipping plane
-directionalLight.shadow.camera.left = -10;
-directionalLight.shadow.camera.right = 10;
-directionalLight.shadow.camera.top = 10;
-directionalLight.shadow.camera.bottom = -10;
-directionalLight.shadow.bias = -0.0001; // Adjust bias to reduce shadow acne
+// // Configure shadow properties for the directional light
+// directionalLight.shadow.mapSize.width = 2048; // Increase shadow map resolution
+// directionalLight.shadow.mapSize.height = 2048;
+// directionalLight.shadow.camera.near = 0.5; // Near clipping plane
+// directionalLight.shadow.camera.far = 50; // Far clipping plane
+// directionalLight.shadow.camera.left = -10;
+// directionalLight.shadow.camera.right = 10;
+// directionalLight.shadow.camera.top = 10;
+// directionalLight.shadow.camera.bottom = -10;
+// directionalLight.shadow.bias = -0.0001; // Adjust bias to reduce shadow acne
 
 showLoadingSpinner();
 
@@ -58,8 +58,8 @@ loader.load('https://raw.githubusercontent.com/mtm-naylinhtoo/3dChair/master/mod
     model.scale.set(3, 3, 3); // Scale the model up for better visibility
     model.traverse((node) => {
         if (node.isMesh) {
-            node.castShadow = true; // Enable shadow casting for meshes
-            node.receiveShadow = true; // Enable shadow receiving for meshes
+            // node.castShadow = true; // Enable shadow casting for meshes
+            // node.receiveShadow = true; // Enable shadow receiving for meshes
             node.material.metalness = 0.1; // Decrease metalness if too shiny
             node.material.roughness = 0.7; // Adjust roughness to make more realistic
         }
@@ -94,8 +94,8 @@ function animate() {
 window.addEventListener('scroll', () => {
     const scrollTop = window.scrollY;
     if (model) {
-        model.rotation.y = scrollTop * 0.002; // Adjust the rotation speed as needed
-        model.rotation.x = scrollTop * 0.0009; // Adjust the rotation speed as needed
+        model.rotation.y = scrollTop * 0.007; 
+        model.rotation.x = scrollTop * 0.002;
     }
 });
 
