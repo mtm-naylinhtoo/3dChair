@@ -15,6 +15,8 @@ const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerH
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0xffca91, 1); // White background to highlight the model
+renderer.shadowMap.enabled = true; // Enable shadow map
+renderer.shadowMap.type = THREE.PCFSoftShadowMap; // Soft shadow map type
 document.getElementById('chair').appendChild(renderer.domElement);
 
 // Show the loading spinner initially
@@ -23,7 +25,6 @@ const showLoadingSpinner = () => {
     spinner.classList.add('visible');
     const content = document.getElementById('content');
     content.classList.remove('visible');
-
 };
 
 // Add ambient light
@@ -32,9 +33,20 @@ scene.add(ambientLight);
 
 // Add directional light
 const directionalLight = new THREE.DirectionalLight(0xffffff, 1); // White light
-directionalLight.position.set(0, 1, 0); // Coming from above
+directionalLight.position.set(0, 10, 0); // Coming from above
+directionalLight.castShadow = true; // Enable shadow casting for the directional light
 scene.add(directionalLight);
 
+// Configure shadow properties for the directional light
+directionalLight.shadow.mapSize.width = 2048; // Increase shadow map resolution
+directionalLight.shadow.mapSize.height = 2048;
+directionalLight.shadow.camera.near = 0.5; // Near clipping plane
+directionalLight.shadow.camera.far = 50; // Far clipping plane
+directionalLight.shadow.camera.left = -10;
+directionalLight.shadow.camera.right = 10;
+directionalLight.shadow.camera.top = 10;
+directionalLight.shadow.camera.bottom = -10;
+directionalLight.shadow.bias = -0.0001; // Adjust bias to reduce shadow acne
 
 showLoadingSpinner();
 
@@ -46,6 +58,8 @@ loader.load('https://raw.githubusercontent.com/mtm-naylinhtoo/3dChair/master/mod
     model.scale.set(3, 3, 3); // Scale the model up for better visibility
     model.traverse((node) => {
         if (node.isMesh) {
+            node.castShadow = true; // Enable shadow casting for meshes
+            node.receiveShadow = true; // Enable shadow receiving for meshes
             node.material.metalness = 0.1; // Decrease metalness if too shiny
             node.material.roughness = 0.7; // Adjust roughness to make more realistic
         }
@@ -56,6 +70,15 @@ loader.load('https://raw.githubusercontent.com/mtm-naylinhtoo/3dChair/master/mod
 }, undefined, (error) => {
     console.error('An error happened while loading the model', error);
 });
+
+// Add a plane to receive shadows
+const planeGeometry = new THREE.PlaneGeometry(500, 500);
+const planeMaterial = new THREE.ShadowMaterial({ opacity: 0.5 });
+const plane = new THREE.Mesh(planeGeometry, planeMaterial);
+plane.rotation.x = -Math.PI / 2;
+plane.position.y = -1; // Adjust as needed
+plane.receiveShadow = true;
+scene.add(plane);
 
 // Camera initial position
 camera.position.set(0, 3, 5); // Higher and further back
@@ -72,6 +95,7 @@ window.addEventListener('scroll', () => {
     const scrollTop = window.scrollY;
     if (model) {
         model.rotation.y = scrollTop * 0.002; // Adjust the rotation speed as needed
+        model.rotation.x = scrollTop * 0.0009; // Adjust the rotation speed as needed
     }
 });
 
