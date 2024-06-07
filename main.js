@@ -32,7 +32,7 @@ scene.add(ambientLight);
 // Load the GLTF model
 const loader = new GLTFLoader();
 let model;
-loader.load('models/leather_chair.gltf', (gltf) => {
+loader.load('https://raw.githubusercontent.com/mtm-naylinhtoo/3dChair/master/models/leather_chair.gltf', (gltf) => {
     model = gltf.scene;
     model.scale.set(3, 3, 3); // Scale the model up for better visibility
     model.traverse((node) => {
