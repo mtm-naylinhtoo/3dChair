@@ -26,6 +26,16 @@ const showLoadingSpinner = () => {
 
 };
 
+// Add ambient light
+const ambientLight = new THREE.AmbientLight(0xffffff, 1); // Soft white light
+scene.add(ambientLight);
+
+// Add directional light
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1); // White light
+directionalLight.position.set(0, 1, 0); // Coming from above
+scene.add(directionalLight);
+
+
 showLoadingSpinner();
 
 // Load the GLTF model
@@ -61,7 +71,7 @@ function animate() {
 window.addEventListener('scroll', () => {
     const scrollTop = window.scrollY;
     if (model) {
-        model.rotation.y = scrollTop * 0.003; // Adjust the rotation speed as needed
+        model.rotation.y = scrollTop * 0.002; // Adjust the rotation speed as needed
     }
 });
 
