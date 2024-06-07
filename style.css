@@ -32,9 +32,10 @@ body, html {
 .title{
     margin-top: 200px;
     text-align: center;
-    font-size: 80px;
+    font-size: 5em;
     font-family: 'Abril Fatface', cursive;
     background-color: transparent;
+    overflow-x: hidden;
 }
 
 .copyright{
@@ -67,3 +68,8 @@ body, html {
     opacity: 1;
 }
 
+@media (max-width: 600px) {
+    .title {
+        font-size: 3em; /* Adjust font size for smaller screens */
+    }
+}
