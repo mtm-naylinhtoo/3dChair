@@ -99,12 +99,19 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Handle window resize
-window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-});
+// Check if the device is a phone
+function isPhone() {
+    return /Mobi|Android/i.test(navigator.userAgent);
+}
+
+// Handle window resize only on non-phone devices
+if (!isPhone()) {
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+}
 
 // Initial call to animate
 animate();
